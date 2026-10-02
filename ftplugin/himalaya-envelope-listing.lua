@@ -111,6 +111,10 @@ local actions = {
 	search = function()
 		actions_mod.search()
 	end,
+
+	subject_search = function()
+		actions_mod.subject_search()
+	end,
 }
 
 -- Apply keymaps from config

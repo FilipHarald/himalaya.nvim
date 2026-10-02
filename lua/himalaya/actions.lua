@@ -296,4 +296,37 @@ function M.search()
 	end)
 end
 
+function M.subject_search()
+	local config = require("himalaya.config").config
+	local layout = require("himalaya.ui.layout")
+	local subject_picker = require("himalaya.ui.subject_picker")
+
+	layout.show_spinner("Loading subjects")
+	envelope_cli.search({
+		mailbox = state.current_folder,
+		query = "order by date desc",
+		page_size = config.subject_search.page_size,
+		account = state.current_account,
+	}, function(err, envelopes)
+		layout.hide_spinner()
+		if err then
+			vim.notify("Subject search failed: " .. tostring(err), vim.log.levels.ERROR)
+			return
+		end
+		if not envelopes or #envelopes == 0 then
+			vim.notify("No emails in this mailbox", vim.log.levels.INFO)
+			return
+		end
+
+		subject_picker.open(envelopes, {
+			mailbox = state.current_folder,
+			account = state.current_account,
+		}, function(envelope)
+			if envelope then
+				email_mod.open(envelope)
+			end
+		end)
+	end)
+end
+
 return M

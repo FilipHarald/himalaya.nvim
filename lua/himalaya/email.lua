@@ -19,12 +19,12 @@ function M.get_selected_envelope()
 	return state.current_envelopes[linenr]
 end
 
-function M.open()
+function M.open(envelope)
 	if not state.layout or not state.main_popup or not state.sidebar_popup or not state.email_popup then
 		return
 	end
 
-	local env = M.get_selected_envelope()
+	local env = envelope or M.get_selected_envelope()
 	if not env or not env.id then
 		return
 	end

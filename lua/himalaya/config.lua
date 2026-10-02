@@ -8,6 +8,9 @@ M.config = {
 	wrap_folder_navigation = true, -- wrap to first/last when navigating folders
 	icons_enabled = false, -- use nerd font icons for folders
 	custom_select = nil, -- optional custom picker function: fn(items, opts, on_choice)
+	subject_search = {
+		page_size = 100000, -- maximum envelopes loaded into the fuzzy subject picker
+	},
 	keymaps = {
 		listing = {
 			["g?"] = "show_keymaps",
@@ -34,6 +37,7 @@ M.config = {
 			["gFa"] = "flag_add",
 			["gFr"] = "flag_remove",
 			["g/"] = "search",
+			["gs"] = "subject_search",
 		},
 		email = {
 			["g?"] = "show_keymaps",

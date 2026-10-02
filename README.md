@@ -28,6 +28,7 @@ Himalaya is a modern CLI tool for managing emails from the terminal. This plugin
 - **Flag operations**: Add (`gFa`) or remove (`gFr`) flags (`seen`, `flagged`, `answered`, `draft`) with immediate UI update.
 - **Attachments**: Download message attachments (`ga`) using `attachment download`.
 - **Search DSL**: Interactive search queries (`g/`) utilizing Himalaya v2's cross-backend query DSL.
+- **Fuzzy subject search**: Search every subject in the current mailbox with fzf (`gs`), with message content in the preview pane.
 - **Account switching**: Switch between accounts seamlessly (`gA` or `:HimalayaAccount <name>`).
 - **Picker integration**: Uses `vim.ui.select` by default (integrates with Telescope, fzf-lua, dressing.nvim) or optional custom selector hook.
 
@@ -36,6 +37,7 @@ Himalaya is a modern CLI tool for managing emails from the terminal. This plugin
 - Neovim >= 0.8
 - [Himalaya CLI v2.0+](https://github.com/pimalaya/himalaya) installed and configured
 - [nui.nvim](https://github.com/MunifTanjim/nui.nvim)
+- [fzf-lua](https://github.com/ibhagwan/fzf-lua) for fuzzy subject search (`gs`)
 
 ## Installation
 
@@ -114,6 +116,7 @@ Default keybindings (all customizable via `config.keymaps`):
 | `gFa` | `flag_add` | Add flag (`seen`, `flagged`, etc.) |
 | `gFr` | `flag_remove` | Remove flag |
 | `g/` | `search` | Search envelopes query |
+| `gs` | `subject_search` | Fuzzy-search all subjects with message preview |
 
 #### Email Reading
 
@@ -152,6 +155,9 @@ require("himalaya").setup({
   wrap_folder_navigation = true, -- wrap to first/last when navigating
   icons_enabled = false, -- use nerd font icons for folders
   custom_select = nil, -- custom picker hook: function(items, opts, on_choice)
+  subject_search = {
+    page_size = 100000, -- maximum envelopes loaded into the fuzzy subject picker
+  },
   keymaps = {
     listing = {
       ["g?"] = "show_keymaps",
@@ -178,6 +184,7 @@ require("himalaya").setup({
       ["gFa"] = "flag_add",
       ["gFr"] = "flag_remove",
       ["g/"] = "search",
+      ["gs"] = "subject_search",
     },
     email = {
       ["g?"] = "show_keymaps",
